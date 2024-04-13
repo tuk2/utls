@@ -25,6 +25,7 @@ import (
 // A Conn represents a secured connection.
 // It implements the net.Conn interface.
 type Conn struct {
+	ClientHello string
 	// constant
 	conn        net.Conn
 	isClient    bool
@@ -1084,29 +1085,39 @@ func (c *Conn) readHandshakeBytes(n int) error {
 // the record layer. If transcript is non-nil, the message
 // is written to the passed transcriptHash.
 func (c *Conn) readHandshake(transcript transcriptHash) (any, error) {
-	if err := c.readHandshakeBytes(4); err != nil {
-		return nil, err
+	for c.hand.Len() < 4 {
+		if err := c.readRecord(); err != nil {
+			return nil, err
+		}
 	}
+
 	data := c.hand.Bytes()
+	hex := fmt.Sprintf("%x", data)
 	n := int(data[1])<<16 | int(data[2])<<8 | int(data[3])
 	if n > maxHandshake {
 		c.sendAlertLocked(alertInternalError)
 		return nil, c.in.setErrorLocked(fmt.Errorf("tls: handshake message of length %d bytes exceeds maximum of %d bytes", n, maxHandshake))
 	}
-	if err := c.readHandshakeBytes(4 + n); err != nil {
-		return nil, err
+	for c.hand.Len() < 4+n {
+		if err := c.readRecord(); err != nil {
+			return nil, err
+		}
 	}
 	data = c.hand.Next(4 + n)
-	return c.unmarshalHandshakeMessage(data, transcript)
+
+	return c.unmarshalHandshakeMessage(data, transcript, hex)
 }
 
-func (c *Conn) unmarshalHandshakeMessage(data []byte, transcript transcriptHash) (handshakeMessage, error) {
+func (c *Conn) unmarshalHandshakeMessage(data []byte, transcript transcriptHash, hex string) (handshakeMessage, error) {
+	//fmt.Println(hex)
+
 	var m handshakeMessage
 	switch data[0] {
 	case typeHelloRequest:
 		m = new(helloRequestMsg)
 	case typeClientHello:
 		m = new(clientHelloMsg)
+		c.ClientHello = hex
 	case typeServerHello:
 		m = new(serverHelloMsg)
 	case typeNewSessionTicket:
