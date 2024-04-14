@@ -25,14 +25,14 @@ const (
 	SupportedGroups_secp192r1                       uint16 = 19
 	SupportedGroups_secp224k1                       uint16 = 20
 	SupportedGroups_secp224r1                       uint16 = 21
-	SupportedGroups_x25519                          uint16 = 22
+	SupportedGroups_secp256k1                          uint16 = 22
 	SupportedGroups_secp256r1                       uint16 = 23
 	SupportedGroups_secp384r1                       uint16 = 24
 	SupportedGroups_secp521r1                       uint16 = 25
 	SupportedGroups_brainpoolP256r1                 uint16 = 26
 	SupportedGroups_brainpoolP384r1                 uint16 = 27
 	SupportedGroups_brainpoolP512r1                 uint16 = 28
-	SupportedGroups_secp256k1                       uint16 = 29
+	SupportedGroups_x25519                       uint16 = 29
 	SupportedGroups_x448                            uint16 = 30
 	SupportedGroups_brainpoolP256r1tls13            uint16 = 31
 	SupportedGroups_brainpoolP384r1tls13            uint16 = 32
@@ -76,14 +76,14 @@ var DictSupportedGroupsValueIndexed = map[uint16]string{
 	19:    "secp192r1",
 	20:    "secp224k1",
 	21:    "secp224r1",
-	22:    "x25519",
+	22:    "secp256k1",
 	23:    "secp256r1",
 	24:    "secp384r1",
 	25:    "secp521r1",
 	26:    "brainpoolP256r1",
 	27:    "brainpoolP384r1",
 	28:    "brainpoolP512r1",
-	29:    "secp256k1",
+	29:    "x25519",
 	30:    "x448",
 	31:    "brainpoolP256r1tls13",
 	32:    "brainpoolP384r1tls13",
@@ -127,14 +127,14 @@ var DictSupportedGroupsNameIndexed = map[string]uint16{
 	"secp192r1":                       19,
 	"secp224k1":                       20,
 	"secp224r1":                       21,
-	"x25519":                          22,
+	"secp256k1":                          22,
 	"secp256r1":                       23,
 	"secp384r1":                       24,
 	"secp521r1":                       25,
 	"brainpoolP256r1":                 26,
 	"brainpoolP384r1":                 27,
 	"brainpoolP512r1":                 28,
-	"secp256k1":                       29,
+	"x25519":                       29,
 	"x448":                            30,
 	"brainpoolP256r1tls13":            31,
 	"brainpoolP384r1tls13":            32,
