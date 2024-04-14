@@ -2,10 +2,6 @@ module github.com/tuk2/utls
 
 go 1.21
 
-retract (
-	v1.4.1 // #218
-	v1.4.0 // #218 panic on saveSessionTicket
-)
 
 require (
 	github.com/andybalholm/brotli v1.0.6
