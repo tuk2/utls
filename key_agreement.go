@@ -167,7 +167,10 @@ type ecdheKeyAgreement struct {
 }
 
 func (ka *ecdheKeyAgreement) generateServerKeyExchange(config *Config, cert *Certificate, clientHello *clientHelloMsg, hello *serverHelloMsg) (*serverKeyExchangeMsg, error) {
+	preferredCurves := config.curvePreferences()
+	fmt.Println(preferredCurves)
 	var curveID CurveID
+	
 	for _, c := range clientHello.supportedCurves {
 		if config.supportsCurve(c) && curveIdToCirclScheme(c) == nil { // [uTLS] ported from cloudflare/go
 			curveID = c
